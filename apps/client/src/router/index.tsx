@@ -25,9 +25,8 @@ import { authLoader } from "./loaders/auth";
 export const routes = createRoutesFromElements(
   <Route element={<Providers />}>
     <Route errorElement={<ErrorPage />}>
-      <Route element={<HomeLayout />}>
-        <Route path="/" element={<HomePage />} />
-      </Route>
+      // Force the site root to the resumes dashboard
+      <Route path="/" element={<Navigate replace to="/dashboard/resumes" />} />
 
       <Route path="auth">
         <Route element={<AuthLayout />}>
