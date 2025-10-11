@@ -71,7 +71,7 @@ export const PublicResumePage = () => {
     <div>
       <Helmet>
         <title>
-          {title} - {t`Reactive Resume`}
+          {title}
         </title>
       </Helmet>
 
@@ -85,16 +85,6 @@ export const PublicResumePage = () => {
           src="/artboard/preview"
           style={{ width: `${pageSizeMap[format].width}mm`, overflow: "hidden" }}
         />
-      </div>
-
-      <div className="hidden justify-center py-10 opacity-50 sm:flex print:hidden">
-        <Link to="/">
-          <Button size="sm" variant="ghost" className="space-x-1.5 text-xs font-normal">
-            <span>{t`Built with`}</span>
-            <Icon size={12} />
-            <span>{t`Reactive Resume`}</span>
-          </Button>
-        </Link>
       </div>
 
       <div className="fixed bottom-5 right-5 z-0 hidden sm:block print:hidden">
