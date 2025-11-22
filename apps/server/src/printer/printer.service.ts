@@ -142,6 +142,17 @@ export class PrinterService {
       const pagesBuffer: Buffer[] = [];
 
       const processPage = async (index: number) => {
+        // Apply custom CSS, if enabled
+        const css = resume.data.metadata.css;
+
+        if (css.visible) {
+          await page.evaluate((cssValue: string) => {
+            const styleTag = document.createElement("style");
+            styleTag.textContent = cssValue;
+            document.head.append(styleTag);
+          }, css.value);
+        }
+
         const pageElement = await page.$(`[data-page="${index}"]`);
         // eslint-disable-next-line unicorn/no-await-expression-member
         const width = (await (await pageElement?.getProperty("scrollWidth"))?.jsonValue()) ?? 0;
@@ -154,17 +165,6 @@ export class PrinterService {
           document.body.innerHTML = clonedElement.outerHTML;
           return temporaryHtml_;
         }, pageElement);
-
-        // Apply custom CSS, if enabled
-        const css = resume.data.metadata.css;
-
-        if (css.visible) {
-          await page.evaluate((cssValue: string) => {
-            const styleTag = document.createElement("style");
-            styleTag.textContent = cssValue;
-            document.head.append(styleTag);
-          }, css.value);
-        }
 
         const uint8array = await page.pdf({ width, height, printBackground: true });
         const buffer = Buffer.from(uint8array);
